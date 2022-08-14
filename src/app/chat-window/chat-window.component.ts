@@ -40,7 +40,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
         this.user.nickName = data.tempUsername;
       else {
         let tempDiv = this.renderer.createElement('div');
-        let insert = "";
+        let insert = '';
         if (data.serverDate) {
           //Server date in milliseconds
           let date = new Date(Date.parse(data.serverDate)).getTime();
@@ -55,10 +55,10 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
           if (data.nickName === this.user.nickName)
             insert = `style="color:#009cfd;"`
-          this.renderer.setProperty(tempDiv, 'innerHTML', `<div><strong>${dateStamp}</strong><span ${insert}> ${data.message}</span></div>`);
+          this.renderer.setProperty(tempDiv, 'innerHTML', `<strong>${dateStamp}</strong><span ${insert}> ${data.message}</span>`);
         }
         else {
-          this.renderer.setProperty(tempDiv, 'innerHTML', ` ${data.message}</div>`)
+          this.renderer.setProperty(tempDiv, 'innerHTML', ` ${data.message}`)
         }
         this.renderer.appendChild(this.div.nativeElement, tempDiv);
 
