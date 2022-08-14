@@ -24,7 +24,8 @@ export class ChatService {
   public subject: Subject<string> = new Subject();
 
   constructor() {
-    this.socket = io('http://localhost:8080');
+    // this.socket = io('http://localhost:8080');
+    this.socket = io('https://web-socket-angular.herokuapp.com/');
     /*When I receive the message(from the "send message" function), I use the "getMessages" function from subject to get the message from myself and 
     send it to the server */
     this.socket?.on('chat message', (data: any) => {
