@@ -4,7 +4,7 @@
 
 <form (ngSubmit)="sendMessage()">
     <input type="text" name="currentMessage" class="form-control" [(ngModel)]="currentTextInput"
-        [placeholder]="placeholderText" />
+        [placeholder]="placeholderText" autocomplete="off"/>
     <br />
     <button type="submit" class="btn btn-primary btn-sm">Send Message</button>
     <button *ngIf="!toggled" (click)="setUsername()" class="btn btn-success btn-sm">Set Nickname</button>
