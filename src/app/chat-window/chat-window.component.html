@@ -1,10 +1,13 @@
 <div #chatWindow class="card card-body bg-light" style="height: 300px; overflow-y: scroll; margin-top:15px">
+    
 </div>
+<div style="position: relative; padding-top: 20px;"><span *ngIf="chatService.someoneIsTyping"><img style="position: absolute; width: 25px; display: block; bottom: 0px;" src="https://riojournal.com/i/simple_loading.gif" alt=""></span></div>
 
 <form (ngSubmit)="sendMessage()">
-    <input type="text" name="currentMessage" class="form-control" [(ngModel)]="currentTextInput"
+    <input (keyup)="setOffTyping()" type="text" name="currentMessage" class="form-control" [(ngModel)]="currentTextInput"
         [placeholder]="placeholderText" autocomplete="off"/>
     <br />
     <button type="submit" class="btn btn-primary btn-sm">Send Message</button>
     <button *ngIf="!toggled" (click)="setUsername()" class="btn btn-success btn-sm">Set Nickname</button>
 </form>
+<!-- chatService.someoneIsTyping -->

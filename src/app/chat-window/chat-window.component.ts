@@ -21,13 +21,53 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   user: User = {} as User;
 
 
-  constructor(private chatService: ChatService, private renderer: Renderer2, private elemRef: ElementRef) { }
+  constructor(public chatService: ChatService, private renderer: Renderer2, private elemRef: ElementRef) { }
 
   updateScrollAttribute(): void {
     setTimeout(() => {
       let scrollHeight: any = (this.div.nativeElement.scrollHeight);
       this.renderer.setProperty(this.div.nativeElement, 'scrollTop', scrollHeight);
     }, 0);
+  }
+
+  sendMessage() {
+    if (this.currentTextInput) {
+      this.user.message = this.currentTextInput;
+      this.currentTextInput = "";
+      this.placeholderText = "";
+      this.chatService.sendMessage(this.user);
+    }
+  }
+
+  setUsername() {
+    if (this.currentTextInput) {
+      this.chatService.cutOffTyping();
+      this.toggled = true;
+      this.user.nickName = this.currentTextInput;
+      this.currentTextInput = "";
+      this.placeholderText = "";
+      this.chatService.updateUsername(this.user);
+    }
+  }
+
+  setOffTyping(): void {
+    if (this.currentTextInput === "")
+      this.chatService.cutOffTyping();
+    else
+      this.chatService.setOffTyping();
+  }
+
+  getDateStamp(serverDate: any): string {
+    //Server date in milliseconds
+    let date = new Date(Date.parse(serverDate)).getTime();
+    //Offset (Converting minutes to milliseconds) Note: Take away 14400000 because server is in another country
+    let offset = (new Date().getTimezoneOffset() * 60 * 1000) - 14400000;
+    //Client date
+    let convertedDate = new Date(date + offset);
+    let hours = convertedDate.getHours();
+    if (hours > 12)
+      hours -= 12;
+    return `${String(hours).padStart(2, '0')}:${String(convertedDate.getMinutes()).padStart(2, '0')}`;
   }
 
   ngOnInit(): void {
@@ -42,17 +82,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
         let tempDiv = this.renderer.createElement('div');
         let insert = '';
         if (data.serverDate) {
-          //Server date in milliseconds
-          let date = new Date(Date.parse(data.serverDate)).getTime();
-          //Offset (Converting minutes to milliseconds)
-          let offset = new Date().getTimezoneOffset() * 60 * 1000;
-          //Client date
-          let convertedDate = new Date(date + offset);
-          let hours = convertedDate.getHours();
-          if (hours > 12)
-            hours -= 12;
-          let dateStamp = `${String(hours).padStart(2, '0')}:${String(convertedDate.getMinutes()).padStart(2, '0')}`;
-
+          let dateStamp = this.getDateStamp(data.serverDate);
           if (data.nickName === this.user.nickName)
             insert = `style="color:#009cfd;"`
           this.renderer.setProperty(tempDiv, 'innerHTML', `<strong>${dateStamp}</strong><span ${insert}> ${data.message}</span>`);
@@ -67,27 +97,6 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
         this.updateScrollAttribute();
       }
     })
-  }
-
-  sendMessage() {
-    if (this.currentTextInput) {
-      this.user.message = this.currentTextInput;
-      this.currentTextInput = "";
-      this.placeholderText = "";
-      this.chatService.sendMessage(this.user);
-    }
-  }
-
-  setUsername() {
-    if (this.currentTextInput) {
-      this.toggled = true;
-
-      this.user.nickName = this.currentTextInput;
-      this.currentTextInput = "";
-      this.placeholderText = "";
-
-      this.chatService.updateUsername(this.user);
-    }
   }
 
   ngOnDestroy(): void {

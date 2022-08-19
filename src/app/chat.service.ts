@@ -23,17 +23,28 @@ export class ChatService {
   private socket: Socket | undefined; //client instance of socket.io
   public subject: Subject<string> = new Subject();
 
+  public someoneIsTyping: boolean = false;
+
   constructor() {
     // this.socket = io('http://localhost:8080');
     this.socket = io('https://web-socket-angular.herokuapp.com/');
+    ///this.socket = io('http://localhost:8080');
     /*When I receive the message(from the "send message" function), I use the "getMessages" function from subject to get the message from myself and 
     send it to the server */
     this.socket?.on('chat message', (data: any) => {
       this.subject.next(data); // send the new message
     })
 
-    this.socket?.on('tempUsername', (data:any)=>{
+    this.socket?.on('tempUsername', (data: any) => {
       this.subject.next(data);
+    })
+
+    this.socket?.on('cut off typing', () => {
+      this.someoneIsTyping = false;
+    })
+
+    this.socket?.on('someone is typing', () => {
+      this.someoneIsTyping = true;
     })
   }
 
@@ -41,7 +52,15 @@ export class ChatService {
     this.socket?.emit('chat message', user);
   }
 
-  updateUsername(user: any){
+  updateUsername(user: any) {
     this.socket?.emit('usernameUpdated', user);
+  }
+
+  setOffTyping() {
+    this.socket?.emit('someone is typing', {});
+  }
+
+  cutOffTyping(){
+    this.socket?.emit('cut off typing', {});
   }
 }
