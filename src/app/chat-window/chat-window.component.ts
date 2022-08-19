@@ -18,6 +18,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   currentTextInput: string = "";
   toggled: boolean = false;
   messages: string[] = [];
+  listOfUsers: string[] = [];
   user: User = {} as User;
 
 
@@ -70,14 +71,27 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     return `${String(hours).padStart(2, '0')}:${String(convertedDate.getMinutes()).padStart(2, '0')}`;
   }
 
+  updateConnectedUsers(listOfUsers: string[]) {
+    let indexOfUser = listOfUsers.indexOf(this.user.nickName);
+    let user = listOfUsers[indexOfUser];
+    listOfUsers.splice(indexOfUser,1);
+    listOfUsers.unshift(user);
+    listOfUsers[0] = 'You';
+    this.listOfUsers = listOfUsers;
+  }
+
   ngOnInit(): void {
     this.user = {
       nickName: "",
       message: ""
     }
     this.getMessagesSub = this.chatService.subject.subscribe((data: any) => {
-      if (data.tempUsername)
+      if (data.tempUsername) {
         this.user.nickName = data.tempUsername;
+        console.log('nickname set')
+      }
+      else if (data.listOfUsers)
+        this.updateConnectedUsers(data.listOfUsers);
       else {
         let tempDiv = this.renderer.createElement('div');
         let insert = '';

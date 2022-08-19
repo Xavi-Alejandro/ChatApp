@@ -26,7 +26,7 @@ export class ChatService {
   public someoneIsTyping: boolean = false;
 
   constructor() {
-    // this.socket = io('http://localhost:8080');
+    //this.socket = io('http://localhost:8080');
     this.socket = io('https://web-socket-angular.herokuapp.com/');
     ///this.socket = io('http://localhost:8080');
     /*When I receive the message(from the "send message" function), I use the "getMessages" function from subject to get the message from myself and 
@@ -38,6 +38,10 @@ export class ChatService {
     this.socket?.on('tempUsername', (data: any) => {
       this.subject.next(data);
     })
+    
+    this.socket?.on('connected clients', (data: any) => {
+      this.subject.next(data);
+    })
 
     this.socket?.on('cut off typing', () => {
       this.someoneIsTyping = false;
@@ -45,7 +49,7 @@ export class ChatService {
 
     this.socket?.on('someone is typing', () => {
       this.someoneIsTyping = true;
-    })
+    })    
   }
 
   sendMessage(user: any) {
