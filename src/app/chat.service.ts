@@ -26,8 +26,8 @@ export class ChatService {
   public someoneIsTyping: boolean = false;
 
   constructor() {
-    //this.socket = io('http://localhost:8080');
-    this.socket = io('https://web-socket-angular.herokuapp.com/');
+    this.socket = io('https://urchin-app-a82f3.ondigitalocean.app/');
+    //this.socket = io('https://web-socket-angular.herokuapp.com/');
     ///this.socket = io('http://localhost:8080');
     /*When I receive the message(from the "send message" function), I use the "getMessages" function from subject to get the message from myself and 
     send it to the server */
