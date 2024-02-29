@@ -1,27 +1,22 @@
-# ChatApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.2.
+![RoomOfChat](https://github.com/Xavi-Alejandro/ChatApp/assets/79874223/5319e4f9-e438-4015-9ac6-b1b49a400062)
 
-## Development server
+# "Room Of Chat"
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+_Spark a conversation with someone from across the world. Whether it be anonymously or as yourself._
 
-## Code scaffolding
+Created with Angular and Node, this app integrates Socket.io to cross communicate between clients.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Websocket connection
+- A websocket connection is initiated with the socket sever.
+- Back and foth communication is done to send messages to the server for distribtion, and receive distributed messages from the server. 
 
-## Build
+# Application layout
+- The application is generated with Angular using Bootstrap elements for Angular.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# Functionality
+- Typing, connected users, among other events are reported.
+- Received messages are dynamically added to the chat window as they arrive.
+  
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Application link: [Room Of Chat](https://spontaneous-manatee-291ab8.netlify.app/)
