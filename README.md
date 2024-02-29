@@ -15,7 +15,8 @@ Created with Angular and Node, this app integrates Socket.io to cross communicat
 - The application is generated with Angular using Bootstrap elements for Angular.
 
 # Functionality
-- Typing, connected users, among other events are reported.
+- Typing, connected users among other events are reported.
+- Connected users can assign themselves a nickname.
 - Received messages are dynamically added to the chat window as they arrive.
   
 
